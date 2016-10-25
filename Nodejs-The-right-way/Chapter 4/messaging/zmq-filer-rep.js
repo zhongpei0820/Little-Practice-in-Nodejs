@@ -12,23 +12,28 @@ responder.on('message', (data) => {
 
 	fs.readFile(request.path,(err,content) =>{
 		if(err){
-			console.log('')
+			console.log(`File ${request.path} not found!`);
+			responder.send(JSON.stringify({
+				err : `File ${request.path} not found!`
+			}));
+		}else{
+			console.log('Sending response message ...');
+			responder.send(JSON.stringify({
+				content : content.toString(),
+				timestamp : Date().now,
+				pid : process.pid
+			}));
 		}
-		console.log('Sending response message ...');
-		responder.send(JSON.stringify({
-			content : content.toString(),
-			timestamp : Date().now,
-			pid : process.pid
-		}));
+		
 	});
 });
 
-responder.bind("tcp://127.0.0.1:5432", (err) => {
+responder.bind("tcp://127.0.0.1:5555", (err) => {
 	console.log(`Listening for request...`);
 });
-console.log(responder);
 
-process.on('SIGNT', () => {
+
+process.on("uncaughtException", () => {
 	console.log(`Shuting down...`);
 	responder.close();
 });
