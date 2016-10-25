@@ -27,6 +27,15 @@ if(cluster.isMaster) {
         console.log('Worker ' + worker.process.pid + ' is online');
     });
 
+    cluster.on('exit',(code,signal) => {
+        if(signal){
+            console.log(`Worker has killed by signal : ${signal}`);
+        } else if(code !== 0){
+            console.log(`Worker exited  with error code : ${code}`);
+        }
+        cluster.fork();
+    });
+
     for(let i = 0; i < 3 ; i++){
         cluster.fork();
     }
