@@ -1,0 +1,12 @@
+{
+  "name": "book-tools",
+  "version": "0.1.0",
+  "description": "Tools for creating an ebook database.",
+  "author": "Pei Zhong",
+  "dependencies": {
+    "async": "^2.1.2",
+    "cheerio": "^0.22.0",
+    "file": "^0.2.2",
+    "request": "^2.76.0"
+  }
+}
